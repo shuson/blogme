@@ -17,21 +17,23 @@ module.exports = function (app){
 	app.post('/reg', secUtil.checkNotLogin);
 	app.post('/reg', secUtil.regDo);
 
-  	//login
-  	app.get('/login', secUtil.checkNotLogin);
-  	app.get('/login', secUtil.login);
+  //login
+  app.get('/login', secUtil.checkNotLogin);
+  app.get('/login', secUtil.login);
 
-  	app.post('/login', secUtil.checkNotLogin);
-  	app.post('/login', secUtil.loginDo);
+  app.post('/login', secUtil.checkNotLogin);
+  app.post('/login', secUtil.loginDo);
 
  	//Compose
  	app.get('/post', secUtil.checkLogin);
  	app.get('/post', postCRUD.compose);
 
-  	app.post('/post', secUtil.checkLogin);
-  	app.post('/post', postCRUD.composeDo);
+  app.post('/post', secUtil.checkLogin);
+  app.post('/post', postCRUD.composeDo);
 
-  	//logout
-  	app.get('/logout', secUtil.checkLogin);
-  	app.get('/logout', secUtil.logout);
+  //get into detailPage by id
+  app.get('/post/:id',postCRUD.getPostById);
+  //logout
+  app.get('/logout', secUtil.checkLogin);
+  app.get('/logout', secUtil.logout);
 }

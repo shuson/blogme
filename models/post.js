@@ -52,8 +52,47 @@ Post.prototype.save = function(callback) {
   });
 };
 
+//get all posts by current login user'name
+Post.getAll = function(name,callback){
 
-Post.get = function(name, callback) {
+  mongodb.open(function(err, db){
+    
+    if(err){
+      return callback(err);
+    }
+
+    db.collection('posts',function(err,collection){
+      if(err){
+        mongodb.close();
+        return callback(err);
+      }
+
+      var query = {};
+      if(name){
+        console.log(name);
+        query.name = name;
+      }else{
+        console.log('name is ' + name)
+      }
+
+      collection.find(query)
+                .sort({
+                  time:-1
+                })
+                .toArray(function(err, docs){
+                  mongodb.close();
+                  if(err){
+                    return callback(err);
+                  }
+                  console.log(docs);
+                  callback(null, docs);
+                });
+    });
+  });
+}
+
+//get post from db by id
+Post.getById = function(id, callback) {
   
   mongodb.open(function (err, db) {
     if (err) {
@@ -66,19 +105,18 @@ Post.get = function(name, callback) {
         return callback(err);
       }
       var query = {};
-      if (name) {
-        query.name = name;
+      if (id) {
+        query.id = id;
       }
       
-      collection.find(query).sort({
-        time: -1
-      }).toArray(function (err, docs) {
-        mongodb.close();
-        if (err) {
-          return callback(err);
-        }
-        callback(null, docs);
-      });
+      collection.findOne(query, function (err, doc) {
+          mongodb.close();
+          if (err) {
+               return callback(err);
+           }
+          console.log(doc);
+          callback(null, doc);
+        });
     });
   });
 };
