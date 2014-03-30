@@ -69,10 +69,8 @@ Post.getAll = function(name,callback){
 
       var query = {};
       if(name){
-        console.log(name);
+        //console.log(name);
         query.name = name;
-      }else{
-        console.log('name is ' + name)
       }
 
       collection.find(query)
@@ -114,7 +112,7 @@ Post.getById = function(id, callback) {
           if (err) {
                return callback(err);
            }
-          console.log(doc);
+          //console.log(doc);
           callback(null, doc);
         });
     });

@@ -55,7 +55,7 @@ exports.getPostById = function(req,res){
         req.flash('error',err);
         return res.redirect('/');
       }
-      console.log(post);
+      //console.log(post);
       res.render('postDetailPage',{
         title:"Detail Page",
         user:req.session.user,
