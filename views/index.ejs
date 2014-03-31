@@ -1,6 +1,6 @@
 <%- include header %>
 <% posts.forEach(function (post, index) { %>
-  <p><h2><a href="post/<%= post._id%>"><%= post.title %></a></h2></p>
+  <p><h2><%=(index+1) %>. <a href="post/<%=post._id %>"><%= post.title %></a></h2></p>
   <p class="info">
     Auther: <a href="#"><%= post.name %></a> | 
     Date：<%= post.time.minute %>
