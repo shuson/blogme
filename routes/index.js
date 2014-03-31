@@ -32,6 +32,9 @@ module.exports = function (app){
 
   	//get into detailPage by id
   	app.get('/post/:id',postCRUD.getPostById);
+
+	//remove by post id
+	app.post('/post/remove',postCRUD.removePostById);
   	//logout
   	app.get('/logout', secUtil.checkLogin);
   	app.get('/logout', secUtil.logout);
