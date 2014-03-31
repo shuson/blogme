@@ -1,5 +1,5 @@
-var mongodb = require('./db');
-
+var mongodb = require('./db'),
+	ObjectID = require('mongodb').ObjectID;
 function Post(name, title, post) {
   this.name = name;
   this.title = title;
@@ -82,7 +82,7 @@ Post.getAll = function(name,callback){
                   if(err){
                     return callback(err);
                   }
-                  console.log(docs);
+                  //console.log(docs);
                   callback(null, docs);
                 });
     });
@@ -104,7 +104,7 @@ Post.getById = function(id, callback) {
       }
       var query = {};
       if (id) {
-        query.id = id;
+        query._id = new ObjectID(id);
       }
       
       collection.findOne(query, function (err, doc) {
@@ -118,3 +118,32 @@ Post.getById = function(id, callback) {
     });
   });
 };
+
+//remove one post by id
+Post.removeById = function(id, callback){
+	mongodb.open(function (err, db){
+		if(err){
+			return callback(err);
+		}
+
+		db.collection('posts',function(err,collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+
+			var query = {};
+			if(id){
+				query._id = new ObjectID(id);
+				console.log(query);
+				collection.remove(query,{w:1}, function(err, deletedNum){
+					mongodb.close();
+					if(err){
+						return callback(err);
+					}
+					callback(null,deletedNum);
+				});
+			}
+		});
+	});
+}
