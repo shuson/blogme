@@ -1,7 +1,14 @@
 <%- include header %>
 <h1><%= post.title %></h1>
-auther: <a href='#'><%= user.name %></a>
+auther: <a href='#'><%= post.name %></a>
 <p>
 <%- post.post %>
 </p>
+
+<% if(user){ if(user.name===post.name) { %>
+   <form action='./remove' method='POST'>
+	<input type='hidden' name="id" value="<%= post._id%>" />
+	<button type='submit' style='color:red' >DELETE</input>
+   </form>
+<% } }%>
 <%- include footer %>
