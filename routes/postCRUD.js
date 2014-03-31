@@ -47,22 +47,41 @@ exports.composeDo = function (req, res) {
 
 //view post detail
 exports.getPostById = function(req,res){
-  var currentUser = req.session.user,
-      postId = req.body.id;
-
+  var postId = req.params.id;
   Post.getById(postId, function(err, post){
       if(err){
         req.flash('error',err);
         return res.redirect('/');
       }
-      //console.log(post);
+
       res.render('postDetailPage',{
         title:"Detail Page",
-        user:req.session.user,
+		user:req.session.user,
         post:post,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
       });
   });
+}
 
+//delete one post by Id
+exports.removePostById = function(req, res){
+	var postId = req.body.id;
+
+	if(postId)
+	{
+		Post.removeById(postId,function(err, result){
+			if(err){
+				req.flash('error',err);
+				return res.redirect('/');
+			}
+			
+			if(result>0){
+				req.flash('error',"Success!");
+			}else{
+				req.flash('success', 'Deleting Failed!');
+			}
+			res.redirect('/');
+		});
+	}
 }
