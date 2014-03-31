@@ -9,6 +9,9 @@
 
 <header>
 <h1><%= title %></h1>
+<% if(user){%>
+<h4 style='float:right'><%= user.name %><h4>
+<%}%>
 </header>
 
 <nav>
