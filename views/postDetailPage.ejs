@@ -1,14 +1,37 @@
 <%- include header %>
 <h1><%= post.title %></h1>
 auther: <a href='#'><%= post.name %></a>
-<p>
-<%- post.post %>
-</p>
+<div id='content'>
+	<%- post.post %>
+</div>
+
+ <form id='updateFrm' action='./update' method='POST' style="display:none">
+	<input type='hidden' name="idUpdate" value="<%= post._id%>" />
+	<textarea name="contentUpdate" cols='20' rows="4" ><%- post.post %></textarea><br/>
+	<button type='submit' style='color:green' >Confirm</input>
+	<button type="button" id="cancel" >Cancel</button>
+ </form>
 
 <% if(user){ if(user.name===post.name) { %>
-   <form action='./remove' method='POST'>
+   <form id='delete' action='./remove' method='POST'>
 	<input type='hidden' name="id" value="<%= post._id%>" />
 	<button type='submit' style='color:red' >DELETE</input>
    </form>
+   <button id="updateBtn" >Update</button>
 <% } }%>
+<script>
+  $(document).ready(function(){
+	$("#updateBtn").click(function(){
+		$(this).hide();
+		$("#content").hide();
+		$("#updateFrm").show();
+	});
+
+	$("#cancel").click(function(){
+		$("#updateBtn").show();
+		$("#content").show();
+		$("#updateFrm").hide();
+	});
+  });
+</script>
 <%- include footer %>
