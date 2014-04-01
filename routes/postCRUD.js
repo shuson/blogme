@@ -48,6 +48,7 @@ exports.composeDo = function (req, res) {
 //view post detail
 exports.getPostById = function(req,res){
   var postId = req.params.id;
+  
   Post.getById(postId, function(err, post){
       if(err){
         req.flash('error',err);
@@ -80,6 +81,28 @@ exports.removePostById = function(req, res){
 				req.flash('error',"Success!");
 			}else{
 				req.flash('success', 'Deleting Failed!');
+			}
+			res.redirect('/');
+		});
+	}
+}
+
+//update post by id
+exports.updatePostById = function(req, res){
+	var postId = req.body.idUpdate,
+		postContent = req.body.contentUpdate;
+
+	if(postId){
+		Post.update(postId,postContent,function(err,result){
+			if(err){
+				req.flash("error",err);
+				return res.redirect('/');
+			}
+
+			if(result>0){
+				req.flash('error',"Success!");
+			}else{
+				req.flash('success', 'Updating Failed!');
 			}
 			res.redirect('/');
 		});
