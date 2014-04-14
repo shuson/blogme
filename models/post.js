@@ -1,5 +1,7 @@
+var markdown = require('markdown').markdown;
 var mongodb = require('./db'),
 	ObjectID = require('mongodb').ObjectID;
+
 function Post(name, title, post) {
   this.name = name;
   this.title = title;
@@ -82,7 +84,11 @@ Post.getAll = function(name,callback){
                   if(err){
                     return callback(err);
                   }
-                  //console.log(docs);
+                  //convert raw post to md
+                  docs.forEach(function (doc) {
+  				doc.post = markdown.toHTML(doc.post);
+			});
+	 	  //return docs to the response
                   callback(null, docs);
                 });
     });
