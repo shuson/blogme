@@ -118,7 +118,8 @@ Post.getById = function(id, callback) {
           if (err) {
                return callback(err);
            }
-          //console.log(doc);
+          
+          doc.post = markdown.toHTML(doc.post);
           callback(null, doc);
         });
     });
