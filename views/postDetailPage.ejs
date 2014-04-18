@@ -1,4 +1,5 @@
 <%- include header %>
+<script src="/javascripts/to-markdown.js" ></script>
 <h1><%= post.title %></h1>
 auther: <a href='#'><%= post.name %></a>
 <div id='content'>
@@ -7,7 +8,7 @@ auther: <a href='#'><%= post.name %></a>
 
  <form id='updateFrm' action='./update' method='POST' style="display:none">
 	<input type='hidden' name="idUpdate" value="<%= post._id%>" />
-	<textarea name="contentUpdate" cols='20' rows="4" ><%- post.post %></textarea><br/>
+	<textarea id='ctxUpdate' name="contentUpdate" cols='80' rows="24" ><%- post.post %></textarea><br/>
 	<button type='submit' style='color:green' >Confirm</input>
 	<button type="button" id="cancel" >Cancel</button>
  </form>
@@ -25,6 +26,8 @@ auther: <a href='#'><%= post.name %></a>
 		$(this).hide();
 		$("#content").hide();
 		$("#updateFrm").show();
+		var ctx = $("#ctxUpdate").val();
+		$("#ctxUpdate").val(toMarkdown(ctx));
 	});
 
 	$("#cancel").click(function(){
